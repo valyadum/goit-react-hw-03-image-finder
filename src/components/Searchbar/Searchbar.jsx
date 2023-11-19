@@ -1,4 +1,8 @@
 import { Component } from 'react';
+import { SearchbarStyle, SearchForm, SearchFormButton,  SearchFormInput } from './Searchbar.styled';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { FaSearch } from "react-icons/fa";
 
 export default class Searchbar extends Component {
   state = {
@@ -7,7 +11,7 @@ export default class Searchbar extends Component {
   onSearchBtn = event => {
       event.preventDefault();
           if (this.state.search.trim() === '') {
-            alert('Введи пошуковий запит!');
+            toast.error("Введи пошуковий запит!");
             return;
           }
     this.props.onSubmit(this.state.search);
@@ -18,23 +22,24 @@ export default class Searchbar extends Component {
   };
   render() {
     return (
-      <header className="searchbar">
-        <form className="form" onSubmit={this.onSearchBtn}>
-          <button type="submit" className="button">
-            <span className="button-label">Search</span>
-          </button>
+      <SearchbarStyle>
+        <ToastContainer/>
+        <SearchForm onSubmit={this.onSearchBtn}>
+          <SearchFormButton type="submit"><FaSearch/>
+          </SearchFormButton>
 
-          <input
+          <SearchFormInput
             className="input"
             name="search"
             type="text"
             autoComplete="off"
             autoFocus
+            value={this.state.search}
             placeholder="Search images and photos"
             onChange={this.handleChange}
           />
-        </form>
-      </header>
+        </SearchForm>
+      </SearchbarStyle>
     );
   }
 }
